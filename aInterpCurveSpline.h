@@ -2,7 +2,7 @@
 #define _A_INTERPCURVE_SPLINE_TK_H
 
 #include <dip/aInterpCurve.h>
-#include <utils\spline.h>
+#include <utils/spline.h>
 
 /** \class aInterpCurveSplineTK
 * \brief A TK::spline interpolation of 2D curve.
