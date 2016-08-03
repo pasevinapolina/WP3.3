@@ -33,8 +33,8 @@ void aInterpCurveSplineTK<T>::make(const std::vector<aPoint<T> > &f, std::vector
 	for (int i = 0; i < n; i++, currentX++) {
 		a = (T)currentX;
 		b = (T)s(currentX);
-		aPoint<T> interp(a, b);
-		g.push_back(interp);
+		aPoint<T> interpolatedPoint(a, b);
+		g.push_back(interpolatedPoint);
 	}
 }
 
