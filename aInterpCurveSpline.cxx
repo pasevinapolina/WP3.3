@@ -9,12 +9,32 @@
 */
 template<class T>
 void aInterpCurveSplineTK<T>::make(const std::vector<aPoint<T> > &f, std::vector<aPoint<T> > &g) {
-	std::cout << "Todo TK::spline curve make..." << std::endl;
+	
+	std::cout<<"Todo tk::spline make..."<<std::endl;
 	m_isOK = true;
 	g.clear();
-	// simply copy vector for this example
-	for (int i = 0; i < f.size(); i++) {
-		g.push_back(f[i]);
+
+	int n = f.size();
+
+	tk::spline s;
+	std::vector<double> x(n);
+	std::vector<double> y(n);
+
+	for (int i = 0; i < n; i++) {
+		x[i] = f[i].x;
+		y[i] = f[i].y;
+	}
+
+	s.set_points(x, y);
+
+	T a, b;
+	T currentX = x[0];
+
+	for (int i = 0; i < n; i++, currentX++) {
+		a = currentX;
+		b = s(currentX);
+		aPoint<T> interp(a, b);
+		g.push_back(interp);
 	}
 }
 
