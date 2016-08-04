@@ -27,6 +27,12 @@ public:
 	//! Calculate the convolution of imgI and imgG. oImg = imgT*imgG
 	virtual void make(const std::vector<aPoint<T> > &f, std::vector<aPoint<T> > &g);
 
+	//! Compare accuracy of two spline interpolation methods.
+    virtual void compare(const std::vector<aPoint<T> > &f, method firstMethod, method secondMethod,
+	  int loopCount, T& l2, T& linf);
+
+    virtual T getValue(method method, T x);
+  
 	//!
 	virtual bool isOK() {
 		return m_isOK;
@@ -39,14 +45,17 @@ public:
 
 	//! Set first derivative for the first point. 
 	virtual void setDrvFirstPoint(T val) {
-		//m_drvP1 = val; // not applied for this class
+		m_drvP1 = val; // not applied for this class
 	};
 
 	//! Set first derivative for the last point. Not used in this class.
 	virtual void setDrvLastPoint(T val) {
-		//m_drvP2 = val; // not applied for this class
+		m_drvP2 = val; // not applied for this class
 	};
 
+    //! First and second derivatives.
+    T m_drvP1, m_drvP2;
+	
 protected:
 	//! State.
 	int m_isOK;
@@ -55,8 +64,8 @@ protected:
 	std::string m_lastError;
 
 	void Init() { // Init method
-		//m_drvP1     = (T)0.0;
-		//m_drvP2     = (T)0.0;
+		m_drvP1     = (T)0.0;
+		m_drvP2     = (T)0.0;
 		m_isOK = true;
 		m_lastError = "";
 	};
