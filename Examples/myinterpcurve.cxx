@@ -23,14 +23,20 @@ int getContour(aImage<T> &volume1, int slice, T threshold, std::vector<aPoint<U>
 
     cont.clear();
     T *p1=(T *)volume1.getPtr();
+    
+	bool containsX = false;
 
-    for ( int j=0; j<y; j++ ) {
-        for ( int i=0; i<x; i++ ) {
-            T val=*(p1+j*x+i);
-            if ( val>=(T)threshold ) {
-                aPoint<U> tmp(i,j,slice);
-                cont.push_back(tmp);
-            }  
+    for ( int i=0; i<x; i++ ) {
+		containsX = false;
+        for ( int j=0; j<y; j++ ) {
+			if (!containsX) {
+				T val = *(p1 + j*x + i);
+				if (val >= (T)threshold) {
+					aPoint<U> tmp(i, j, slice);
+					cont.push_back(tmp);
+					containsX = true;
+				}
+			}// end if
         }// end for i
     }// end for j
     return cont.size();
