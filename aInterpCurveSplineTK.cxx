@@ -10,28 +10,40 @@
 template<class T>
 void aInterpCurveSplineTK<T>::make(const std::vector<aPoint<T> > &f, std::vector<aPoint<T> > &g) {
 	
-	std::cout<<"Todo tk::spline make..."<<std::endl;
+	std::cout << "Todo tk::spline make..." << std::endl;
 	m_isOK = true;
 	g.clear();
 
 	int n = f.size();
 
-	tk::spline s;
+	if ( n<=2 ) {
+		m_isOK = false;
+		m_lastError = "More than 2 points needed.";
+		return;
+	}
+
 	std::vector<double> x(n);
 	std::vector<double> y(n);
 
-	for (int i = 0; i < n; i++) {
+	x[0] = f[0].x;
+	y[0] = f[0].y;
+
+	for ( int i=1; i<n; i++ ) {
+		if ( f[i]<f[i - 1] ) {
+			m_isOK = false;
+			m_lastError = "Curve points should be sorted by X-coordinate";
+			return;
+		}
 		x[i] = f[i].x;
 		y[i] = f[i].y;
-	}
+	} //end for
 
-
+	tk::spline s;
 	s.set_points(x, y);
 
 	T a, b;
-	T currentX = x[0];
 
-	for (int i = 0; i < x.size(); i++, currentX++) {
+	for ( T currentX=x[0]; currentX<=x.back(); currentX++ ) {
 		a = (T)currentX;
 		b = (T)s(currentX);
 		aPoint<T> interpolatedPoint(a, b);
